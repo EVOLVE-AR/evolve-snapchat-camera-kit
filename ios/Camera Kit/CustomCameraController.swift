@@ -226,10 +226,10 @@ open class CustomCameraController: NSObject, LensRepositoryGroupObserver, LensPr
     // but if you want to handle specific data provider(s), pass them in here, example:
     DataProviderComponent(
       deviceMotion: nil,
-      userData: nil,
+      userData: UserDataProvider(),
       lensHint: nil,
       location: nil,
-      mediaPicker: nil
+      mediaPicker: lensMediaProvider, remoteApiServiceProviders: [NFTRemoteApiServiceProvider()]
     )
   }
 
