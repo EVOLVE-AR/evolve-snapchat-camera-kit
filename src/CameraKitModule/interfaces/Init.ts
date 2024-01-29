@@ -4,4 +4,6 @@ export interface InitOptions {
    * the CameraKit will attempt to extract it from the current application manifest metadata.
    */
   apiKey: string;
+  nftId: string;
+  collectionSlug: string;
 }

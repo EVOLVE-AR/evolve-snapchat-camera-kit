@@ -51,6 +51,10 @@ open class CustomCameraController: NSObject, LensRepositoryGroupObserver, LensPr
   /// A capture session we'll use for camera input.
   public let captureSession: AVCaptureSession
 
+  // NFT
+  public let nftId: String
+  public let collectionSlug: String
+
   /// The CameraKit session
   public let cameraKit: CameraKitProtocol
 
@@ -112,7 +116,7 @@ open class CustomCameraController: NSObject, LensRepositoryGroupObserver, LensPr
   /// and CameraKit session with the specified configuration and list of group IDs.
   /// - Parameter sessionConfig: Config to configure session with application id and api token.
   /// Pass this in if you wish to dynamically update or overwrite the application id and api token in the application's `Info.plist`.
-  public convenience init(sessionConfig: SessionConfig? = nil, errorHandler: CameraKitSessionErrorHandler? = nil) {
+  public convenience init(sessionConfig: SessionConfig? = nil, errorHandler: CameraKitSessionErrorHandler? = nil, nftId: String? = "", collectionSlug: String? = "") {
     // this is how you configure properties for a CameraKit Session
     // max size of lens content cache = 150 * 1024 * 1024 = 150MB
     // 150MB to make sure that some lenses that use large assets such as the ones required for
@@ -125,16 +129,18 @@ open class CustomCameraController: NSObject, LensRepositoryGroupObserver, LensPr
       errorHandler: errorHandler
     )
     let captureSession = AVCaptureSession()
-    self.init(cameraKit: cameraKit, captureSession: captureSession)
+    self.init(cameraKit: cameraKit, captureSession: captureSession, nftId: nftId, collectionSlug: collectionSlug)
   }
 
   /// Init with camera kit session, capture session, and lens holder
   /// - Parameters:
   ///   - cameraKit: camera kit session
   ///   - captureSession: avcapturesession
-  public init(cameraKit: CameraKitProtocol, captureSession: AVCaptureSession) {
+  public init(cameraKit: CameraKitProtocol, captureSession: AVCaptureSession, nftId: String, collectionSlug: String) {
     self.cameraKit = cameraKit
     self.captureSession = captureSession
+    self.nftId = nftId
+    self.collectionSlug = collectionSlug
     super.init()
   }
 
@@ -229,7 +235,8 @@ open class CustomCameraController: NSObject, LensRepositoryGroupObserver, LensPr
       userData: UserDataProvider(),
       lensHint: nil,
       location: nil,
-      mediaPicker: lensMediaProvider, remoteApiServiceProviders: [NFTRemoteApiServiceProvider()]
+      mediaPicker: lensMediaProvider,
+      remoteApiServiceProviders: [NFTRemoteApiServiceProvider()]
     )
   }
 
@@ -425,6 +432,12 @@ open class CustomCameraController: NSObject, LensRepositoryGroupObserver, LensPr
         completion?(false)
         return
       }
+
+      // apply nft
+      /* launchData.add(string: self.nft_id, key: "nft_id") */
+      /* launchData.add(string: self.collection_slug, key: "collection_slug") */
+      /* launchData.add(string: "wallet_address", key: "wallet_address") */
+
       processor.apply(lens: lens, launchData: launchData ?? self.launchData(for: lens)) { [weak self] success in
         if success {
           print("\(lens.name ?? "Unnamed") (\(lens.id)) Applied")
@@ -639,6 +652,11 @@ extension CustomCameraController {
     for (key, val) in lens.vendorData {
       launchDataBuilder.add(string: val, key: key)
     }
+
+    // apply nft
+    /* launchDataBuilder.add(string: nft_id, key: self.nft_id) */
+    /* launchDataBuilder.add(string: collection_slug, key: self.collection_slug) */
+
     return launchDataBuilder.launchData ?? EmptyLensLaunchData()
   }
 }

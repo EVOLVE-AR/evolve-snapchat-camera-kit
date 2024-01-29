@@ -74,6 +74,8 @@ public final class CameraKitView: UIView, CustomCameraControllerUIDelegate {
   public var isPropsInitalized = false
 
   public var apiKey: String?
+  public var nftId: String?
+  public var collectionSlug: String?
 
   public var pinchGestureRecognizer: UIPinchGestureRecognizer?
   public var singleTap: UITapGestureRecognizer?
@@ -91,8 +93,10 @@ public final class CameraKitView: UIView, CustomCameraControllerUIDelegate {
     return view
   }()
 
-  required init(apiKey: String?) {
+  required init(apiKey: String?, nftId: String?, collectionSlug: String?) {
     self.apiKey = apiKey
+    self.nftId = nftId
+    self.collectionSlug = collectionSlug
 
     super.init(frame: CGRect.zero)
 
@@ -110,7 +114,9 @@ public final class CameraKitView: UIView, CustomCameraControllerUIDelegate {
 
     cameraController = CustomCameraController(
       sessionConfig: sessionConfig,
-      errorHandler: errorHandler
+      errorHandler: errorHandler,
+      nftId: nftId,
+      collectionSlug: collectionSlug
     )
 
     #if targetEnvironment(simulator)

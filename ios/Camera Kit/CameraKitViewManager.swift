@@ -11,9 +11,12 @@ import SCSDKCameraKit
 @objc(CameraKitViewManager)
 final class CameraKitViewManager: RCTViewManager {
   var apiKey: String?
+  var nftId: String?
+  var collectionSlug: String?
 
   override final func view() -> UIView! {
-    return CameraKitView(apiKey: apiKey)
+    print("VIEW INIT", nftId, collectionSlug);
+    return CameraKitView(apiKey: apiKey, nftId: nftId, collectionSlug: collectionSlug)
   }
 
   // Camera View Functions - (Recording)
@@ -145,6 +148,8 @@ final class CameraKitViewManager: RCTViewManager {
   @objc
   final func initMethod(_ options: NSDictionary) {
     apiKey = options.value(forKey: "apiKey") as? String
+    nftId = options.value(forKey: "nftId") as? String
+    collectionSlug = options.value(forKey: "collectionSlug") as? String
   }
 
   @objc
