@@ -129,7 +129,7 @@ open class CustomCameraController: NSObject, LensRepositoryGroupObserver, LensPr
       errorHandler: errorHandler
     )
     let captureSession = AVCaptureSession()
-    self.init(cameraKit: cameraKit, captureSession: captureSession, nftId: nftId, collectionSlug: collectionSlug)
+    self.init(cameraKit: cameraKit, captureSession: captureSession, nftId: nftId! as String, collectionSlug: collectionSlug! as String)
   }
 
   /// Init with camera kit session, capture session, and lens holder
@@ -232,10 +232,10 @@ open class CustomCameraController: NSObject, LensRepositoryGroupObserver, LensPr
     // but if you want to handle specific data provider(s), pass them in here, example:
     DataProviderComponent(
       deviceMotion: nil,
-      userData: UserDataProvider(),
+      userData: nil,
       lensHint: nil,
       location: nil,
-      mediaPicker: lensMediaProvider,
+      mediaPicker: nil,
       remoteApiServiceProviders: [NFTRemoteApiServiceProvider()]
     )
   }
