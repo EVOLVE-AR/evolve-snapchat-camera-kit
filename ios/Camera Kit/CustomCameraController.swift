@@ -1,4 +1,4 @@
-//
+i//
 //  CustomCameraController.swift
 //  react-native-snapchat-camera-kit
 //
@@ -427,18 +427,19 @@ open class CustomCameraController: NSObject, LensRepositoryGroupObserver, LensPr
       // set current lens right away so we don't apply same lens twice
       self?.currentLens = lens
       self?.currentLaunchData = launchData
-
+        
       guard let self = self, let processor = self.cameraKit.lenses.processor else {
         completion?(false)
         return
       }
 
       // apply nft
-      /* launchData.add(string: self.nft_id, key: "nft_id") */
-      /* launchData.add(string: self.collection_slug, key: "collection_slug") */
-      /* launchData.add(string: "wallet_address", key: "wallet_address") */
-
-      processor.apply(lens: lens, launchData: launchData ?? self.launchData(for: lens)) { [weak self] success in
+      let nftLaunchData = LensLaunchDataBuilder()
+      nftLaunchData.add(string: self.nftId, key: "nft_id")
+      nftLaunchData.add(string: self.collectionSlug, key: "collection_slug")
+      nftLaunchData.add(string: "wallet_address", key: "wallet_address")
+        
+        processor.apply(lens: lens, launchData: nftLaunchData.launchData) { [weak self] success in
         if success {
           print("\(lens.name ?? "Unnamed") (\(lens.id)) Applied")
 
@@ -654,8 +655,8 @@ extension CustomCameraController {
     }
 
     // apply nft
-    /* launchDataBuilder.add(string: nft_id, key: self.nft_id) */
-    /* launchDataBuilder.add(string: collection_slug, key: self.collection_slug) */
+    launchDataBuilder.add(string: "nft_id", key: self.nftId)
+    launchDataBuilder.add(string: "collection_slug", key: self.collectionSlug)
 
     return launchDataBuilder.launchData ?? EmptyLensLaunchData()
   }
@@ -739,3 +740,4 @@ extension CustomCameraController {
     }
   }
 }
+
