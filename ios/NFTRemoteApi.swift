@@ -23,7 +23,7 @@ class NFTRemoteApiService: NSObject, LensRemoteApiService {
 
     private enum Constants {
         static let scheme = "https"
-        static let host = "evolve-test-app.herokuapp.com"
+        static let host = "evolve-1bf80.uc.r.appspot.com"
     }
 
     private let urlSession: URLSession = .shared
@@ -96,3 +96,4 @@ class IgnoredRemoteApiServiceCall: NSObject, LensRemoteApiServiceCall {
         // no-op
     }
 }
+
