@@ -1,4 +1,4 @@
-i//
+//
 //  CustomCameraController.swift
 //  react-native-snapchat-camera-kit
 //
